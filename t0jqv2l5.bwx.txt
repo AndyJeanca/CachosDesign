@@ -1,0 +1,20 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	deleted:    CachosDesign/nbproject/private/private.properties
+#	deleted:    CachosDesign/nbproject/private/private.xml
+#	deleted:    CachosDesign/nbproject/project.properties
+#	deleted:    CachosDesign/nbproject/project.xml
+#	deleted:    CachosDesign/public_html/Model/ArcClass.js
+#	deleted:    CachosDesign/public_html/Model/CircleClass.js
+#	deleted:    CachosDesign/public_html/Model/FigureClass.js
+#	deleted:    CachosDesign/public_html/Model/LineClass.js
+#	deleted:    CachosDesign/public_html/Model/SquareClass.js
+#	deleted:    CachosDesign/public_html/View/index.html
+#	deleted:    README.md
+#
+
