@@ -44,9 +44,12 @@ function Circle (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pRadius, pFill
     };
     
     this.prototype.drawFigure = function () {
+        var _pointArray = [];
+        
+        
         
     };
-    
+   
     this.prototype.drawFigure = function () {
         
     };

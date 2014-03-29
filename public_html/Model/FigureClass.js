@@ -66,6 +66,17 @@ function Figure(pId, pLabel, pType, pColor, pBorderSize, pX, pY) {
     this.isInPointIn = function () {};
     
     this.drawFigure = function () {};
+    
+     this.prototype.pointsInRange=function(pX1,pX2,pY1,pY2,pColorOfThePoints){
+        var pointsInRange = [];
+        for (var actualPointY=pY1; actualPointY<pY2; actualPointY++){
+            for (var actualPointX=pX1; actualPointY<pX2; actualPointX++){
+                var actualPoint = point(actualPointX,actualPointY,pColorOfThePoints);
+                pointsInRange.push(actualPoint);
+            }
+        }
+        return pointsInRange;
+    };
 }
 
 function printInformationOfCircle () {
