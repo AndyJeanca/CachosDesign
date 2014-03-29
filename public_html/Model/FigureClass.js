@@ -2,11 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-function Figure(pId, pLabel, pType, pColor, pBorderSize, pX, pY) {
+function Figure(pId, pLabel, pColor, pBorderSize, pX, pY) {
  
     var id = pId;
     var label = pLabel;
-    var type = pType;
     var color = pColor;
     var borderSize = pBorderSize;
     var x = pX;
