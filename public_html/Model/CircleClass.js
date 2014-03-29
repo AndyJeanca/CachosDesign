@@ -29,10 +29,10 @@ function Circle (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pRadius, pFill
         //We are making a range between the borders of the circle to know if the pont x,y 
         //its in the area of the circle
         var pointX1 = (this.getX() - this.getRadius());
-        var pointX2 = (this.getX() - this.getRadius());
+        var pointX2 = (this.getX() + this.getRadius());
         
         var pointY1 = (this.getY() - this.getRadius());
-        var pointY2 = (this.getY() - this.getRadius());
+        var pointY2 = (this.getY() + this.getRadius());
         
         if((pX>=pointX1 && pX<=pointX2)&&(pY>=pointY1 && pY<=pointY2)){
             return true;
@@ -45,6 +45,22 @@ function Circle (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pRadius, pFill
     
     this.prototype.drawFigure = function () {
         var _pointArray = [];
+        var pointX1 = (this.getX() - this.getRadius());
+        var pointX2 = (this.getX() + this.getRadius());
+        
+        var pointY1 = (this.getY() - this.getRadius());
+        var pointY2 = (this.getY() + this.getRadius());
+        
+        var distanceBetweenPoints = 0;
+        for(pointY2;pointY2>pointY1;pointY2--){
+            _pointArray=this.pointsInRange(pX-distanceBetweenPoints,pX+distanceBetweenPoints,pointY2,pointY2,_pointArray);
+            if(pointY2>pY){
+                distanceBetweenPoints++;
+            }
+            else{
+                distanceBetweenPoints--;
+            }
+        }
         
         
         

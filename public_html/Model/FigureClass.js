@@ -66,9 +66,8 @@ function Figure(pId, pLabel, pType, pColor, pBorderSize, pX, pY) {
     this.isInPointIn = function () {};
     
     this.drawFigure = function () {};
-    
-     this.prototype.pointsInRange=function(pX1,pX2,pY1,pY2,pColorOfThePoints){
-        var pointsInRange = [];
+    //Points in range is a function that add all the points that are between the range given in pointInRange
+     this.prototype.pointsInRange=function(pX1,pX2,pY1,pY2,pointsInRange){
         for (var actualPointY=pY1; actualPointY<pY2; actualPointY++){
             for (var actualPointX=pX1; actualPointY<pX2; actualPointX++){
                 var actualPoint = point(actualPointX,actualPointY,pColorOfThePoints);
