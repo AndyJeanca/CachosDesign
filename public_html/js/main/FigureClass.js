@@ -7,6 +7,7 @@ function point(pPosition,pPointX,pPointY,pColor){
     var pointX = pPointX;
     var pointY = pPointY;
     var color = pColor;
+    var pointSize = 0;
     
     this.setX=function(pX){
         pointX=pX;
@@ -37,6 +38,13 @@ function point(pPosition,pPointX,pPointY,pColor){
         return color;
     };
     
+    this.setSize=function(pSize){
+        pointSize=pSize;
+    };
+    
+    this.getSize=function(){
+        return pointSize;
+    };
     
 }
 
@@ -98,11 +106,17 @@ function Figure(pId, pLabel, pColor, pBorderSize, pX, pY) {
         label = pLabel;
     };
     
-    this.printInformationOfFigure = function () {};
+    this.printInformationOfFigure = function () {
+        
+    };
     
-    this.isInPointIn = function () {};
+    this.isInPointIn = function () {
+        
+    };
     
-    this.drawFigure = function () {};
+    this.prototype.drawFigure = function () {
+        
+    };
     //Points in range is a function that add all the points that are between the range given in pointInRange
      this.prototype.pointsInRange=function(pX1,pX2,pY1,pY2,pColorsOfThePoints,pointsInRange){
         for (var actualPointY=pY1; actualPointY<pY2; actualPointY++){
@@ -191,6 +205,7 @@ function Line (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pX2, pY2) {
     var x2 = pX2;
     var y2 = pY2;
     
+    
     this.getX2 = function () {
       return x2;  
     }; 
@@ -211,15 +226,12 @@ function Line (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pX2, pY2) {
         
     };
     
-    this.prototype.drawFigure = function () {
+    this.drawFigure = function () {
         var _pointArray = [];
         _pointArray=this.pointsInRange(pX,x2,y2,pY,pColor,_pointArray);
         return _pointArray;
     };
     
-    this.prototype.drawFigure = function () {
-        
-    };
 }
 
 function Square (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pWidth, pHeight, pFill) {
@@ -275,13 +287,6 @@ function Design(pDesignName){
      //Amount of figures its used as a counter in the design. The actual amount of figures will be the id of any new figure added to the project.
      var amountOFFigures = 0;
      
-     
-       
-     this.createLinesBetweenPoints = function(){
-         
-         
-     };
-     
      this.drawBasicPoints = function(){
          for (var amountOfBasicPoint = 0; amountOfBasicPoint<9; amountOfBasicPoint++){
              var newPoint = new point (amountOfBasicPoint,0,0,1);
@@ -290,26 +295,39 @@ function Design(pDesignName){
          //Point A
          _basicPoints[0].movePoint(100,100);
          //Point A curve 1
-         _basicPoints[1].movePoint(195,134);
+         _basicPoints[1].movePoint(170,147);
          //Point A curve 2
-         _basicPoints[2].movePoint(295,134);
+         _basicPoints[2].movePoint(270,147);
          //Point B
          _basicPoints[3].movePoint(400,100);
          //Point C
-         _basicPoints[4].movePoint(500,200);
+         _basicPoints[4].movePoint(450,180);
          //PointD
-         _basicPoints[5].movePoint(634,400);
+         _basicPoints[5].movePoint(600,300);
          //pointE
-         _basicPoints[6].movePoint(100,400);
+         _basicPoints[6].movePoint(100,300);
          //pointE curve1
-         _basicPoints[7].movePoint(195,300);
+         _basicPoints[7].movePoint(120,170);
          //pointECurve2
-         _basicPoints[8].movePoint(195,300);
+         _basicPoints[8].movePoint(120,250);
          
          
      };
      
      this.drawBasicPoints();
+     
+       this.createLinesBetweenPoints = function(){
+         for (var amountOfBasicPoint = 0; amountOfBasicPoint<8; amountOfBasicPoint++){
+             var initialPoint = _basicPoints[amountOfBasicPoint];
+             var finalPoint = _basicPoints[amountOfBasicPoint+1];
+             
+             var line = new Line(amountOfBasicPoint, "", "Line", 1, 1,initialPoint.getX() , initialPoint.getY(), finalPoint.getX(), finalPoint.getY());
+             _basicLinesBetweenPoints.push(line);
+         }
+         
+         
+     };
+     this.createLinesBetweenPoints();
 
  
      //These are the functions to modificate the name of the design
@@ -346,6 +364,10 @@ function Design(pDesignName){
      
      this.getBasicPoints = function(){
          return _basicPoints;
+     };
+     
+     this.getBasicLines = function(){
+       return _basicLinesBetweenPoints;  
      };
      
      // As we are using the following functions to get a figure by its id
@@ -404,28 +426,47 @@ function ProjectManager(){
     this.startCachosDesign = function(){
           this.canvasManagment();
           this.drawBasicPoints();
+          this.drawBasicLines();
     };
  
     // This is the function that controls the interactions between the user and the canvas
     this.canvasManagment = function(){
         canvasContext.canvas.addEventListener('mousemove',function(event){
-        var xPosition = event.clientX - canvasContext.canvas.offsetLeft;
-        var yPosition = event.clientY - canvasContext.canvas.offsetTop;
+        var xPosition = event.clientX - canvasContext.canvas.offsetLeft ;
+        var yPosition = event.clientY - canvasContext.canvas.offsetTop ;
         document.getElementById('mousePositionText').innerHTML ='Mouse Position X '+xPosition+' , Y '+yPosition;},false);
-        this.drawBasicPoints();
+        
     };
 
     //These function are to controll the mose movement and to save the x and y position when it is clicked.
     
     this.drawBasicPoints= function(){
+        
         var actualPoints=actualDesign.getBasicPoints();
         for( var amountOfPoints = 0;amountOfPoints<9;amountOfPoints++){
             var positionX = actualPoints[amountOfPoints].getX();
             var positionY = actualPoints[amountOfPoints].getY();
-            this.paintApixel(positionX,positionY);
-            
-        }
-        
+            this.paintApixel(positionX,positionY,7);   
+        }   
+    };
+    
+    this.drawBasicLines = function(){
+        var actualLines=actualDesign.getBasicLines();
+        for(var amountOfLines= 0;amountOfLines<8;amountOfLines++){
+           alert(actualLines[amountOfLines].getX());
+           var pointsBetweenLines = actualLines[amountOfLines].drawFigure();
+           for(var numberOfPoints = pointsBetweenLines.lenght;numberOfPoints>0;numberOfPoints--){
+               var positionX = actualLines[numberOfPoints].getX();
+               var positionY = actualLines[numberOfPoints].getY();
+               var pointSize = actualLines[numberOfPoints].getSize();
+               this.paintApixel(positionX,positionY,pointSize);
+           } 
+       }
+    };
+    
+    this.paintApixel= function(pX, pY,pPixelSize) {  
+        canvasContext.fillRect(pX, pY, pPixelSize, pPixelSize);
+        canvasContext.stroke(); 
     };
 
 
@@ -466,11 +507,7 @@ function ProjectManager(){
        drawFromList(pointsToDraw);
      };
 
-    this.paintApixel= function(pX, pY) {  
-        var designCanvas = document.getElementById("_Canvas").getContext("2d");
-        designCanvas.fillRect(pX, pY, 9, 9);
-        designCanvas.stroke(); 
-    };
+    
 
     this.drawFromList=function(pListOfPoints){
         var ListOfPoints = [];

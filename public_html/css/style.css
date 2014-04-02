@@ -16,19 +16,13 @@
 /* ===================
     ALL: Fonts
    =================== */
-@font-face {
-  font-family: 'IntelligentSense';
-  src: url("fonts/tgl-31034-1-normschrift.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 /* line 27, ../scss/partials/_general.scss */
 #_Canvas{
-    background: #6990AE; 
+    background: cornsilk; 
     border: #000 1px solid;
-    width:700px;
-    height:400px;
+    
 }
   
  #mousePositionText{
@@ -333,6 +327,7 @@ body {
   }
 }
 @media only screen and (min-width: 768px) {
+     
   /* ====================
       WIDE: CSS3 Effects
      ==================== */
