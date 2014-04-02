@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 function Circle (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pRadius, pFill) {
     this.prototype = new Figure;
     Figure.call(this, pId, pLabel, pType, pColor, pBorderSize, pX, pY);
@@ -53,7 +54,7 @@ function Circle (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pRadius, pFill
         
         var distanceBetweenPoints = 0;
         for(pointY2;pointY2>pointY1;pointY2--){
-            _pointArray=this.pointsInRange(pX-distanceBetweenPoints,pX+distanceBetweenPoints,pointY2,pointY2,_pointArray);
+            _pointArray=this.pointsInRange(pX-distanceBetweenPoints,pX+distanceBetweenPoints,pointY2,pointY2,pColor,_pointArray);
             if(pointY2>pY){
                 distanceBetweenPoints++;
             }
@@ -61,6 +62,7 @@ function Circle (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pRadius, pFill
                 distanceBetweenPoints--;
             }
         }
+        return _pointArray;
         
         
         

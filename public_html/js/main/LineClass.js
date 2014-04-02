@@ -30,7 +30,9 @@ function Line (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pX2, pY2) {
     };
     
     this.prototype.drawFigure = function () {
-        
+        var _pointArray = [];
+        _pointArray=this.pointsInRange(pX,x2,y2,pY,pColor,_pointArray);
+        return _pointArray;
     };
     
     this.prototype.drawFigure = function () {
