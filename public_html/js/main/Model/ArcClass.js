@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-function Arc (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pStartingAngle, pEndingAngle, pRadius, pAntiClockWise) {
+ Arc  (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pStartingAngle, pEndingAngle, pRadius, pAntiClockWise) {
     this.prototype = new Figure;
     Figure.call(this, pId, pLabel, pType, pColor, pBorderSize, pX, pY);
     var startingAngle = pStartingAngle;

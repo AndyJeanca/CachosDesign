@@ -117,9 +117,65 @@ var  point = Class.extend({
     
 });
 
+
+//Colrs is basically a class with an array of 16 colors that are aviable to paint all the elements in the project
+var Colors = Class.extend({
+    init : function() {
+        this._colors = [];
+        this.loadColors();
+    },
+   loadColors : function(){
+       //Blue 
+       for(var numberOfColors = 0 ; numberOfColors<16; numberOfColors++){
+           this._colors.push("");
+       };
+       //Red 1 
+       this._colors[0] = "#FF3333";
+        //Brown 
+       this._colors[1] = "#FF9933";
+        //Yellow
+       this._colors[2] = "#FFFF33";
+        //Green 1
+       this._colors[3] = "#99FF33";
+        // Purple 
+       this._colors[4] = "#FF3399";
+        //Red 2
+       this._colors[5]= "#F50000";
+        //Vine
+       this._colors[6]= "#B80000";
+        //Green 2
+       this._colors[7]="#33FF33";
+        //Purple 2
+       this._colors[8]="#FF33FF";
+        //Blue
+       this._colors[9]="#00B8B8";
+        //Blue 2
+       this._colors[10]= "#00F5F5";
+        //Green 3
+       this._colors[11]="#33FF99";
+        //Orange 
+       this._colors[12]="#00F5F5";
+        //=purple 3
+       this._colors[13]="#9933FF";
+        //Blue 3
+       this._colors[14]="#3333FF";
+        //Blue 3
+       this._colors[15]="#3399FF";
+       
+ 
+ 
+     },
+             
+     getColor : function (pNumber){
+        return this._colors[pNumber];
+     }
+});
+
+
+
 var Figure = Class.extend({
     init : function(pId, pLabel, pColor, pBorderSize, pX, pY) {
- 
+    this.colorList = new Colors();
     this.id = pId;
     this.label = pLabel;
     this.color = pColor;
@@ -300,7 +356,61 @@ var Line = Figure.extend({
         alert(this.x+" "+this.y);
         canvasContext.moveTo(this.x,this.y);
         canvasContext.lineTo(this.x2,this.y2);
-        canvasContext.stroke()
+        canvasContext.lineWidth = this.borderSize;
+        var currentColor = this.colorList.getColor(this.borderSize);
+        canvasContext.strokeStyle= currentColor;
+        canvasContext.lineCap = 'round';
+        canvasContext.stroke();
+    }
+    
+});
+
+var Arc = Figure.extend({  
+    init : function(pId, pLabel, pType, pColor, pBorderSize, pX, pY, pStartingAngle, pEndingAngle, pRadius, pAntiClockWise) {
+    this._Super(pId, pLabel, pType, pColor, pBorderSize, pX, pY);
+    this.startingAngle = pStartingAngle;
+    this.endingAngle = pEndingAngle;
+    this.radius = pRadius;
+    this.antiClockWise = pAntiClockWise;
+    },
+    getStartingAngle : function () {
+        return startingAngle;
+    },
+    
+    getEndingAngle :function () {
+        return endingAngle;
+    },
+    
+    getRadius : function () {
+        return radius;
+    },
+    
+    getAntiClockWise : function () {
+        return antiClockWise;
+    },
+    
+    setStartingAngle : function (pStartingAngle) {
+        startingAngle = pStartingAngle;
+    },
+    
+    setEndingAngle : function (pEndingAngle) {
+        endingAngle = pEndingAngle;
+    },
+    
+    setRadius : function (pRadius) {
+        radius = pRadius;
+    },
+    
+    setAntiClockWise : function (pAntiClockWise) {
+      antiClockWise = pAntiClockWise;
+    },
+    
+    isInPointIn : function () {
+        
+    },
+    
+    drawFigure : function () {
+        
     }
     
 });
@@ -349,11 +459,12 @@ var Square = Figure.extend({
 
 var Design= Class.extend({
     init : function (pDesignName){
-     
      this._DesignName =pDesignName;
      this._figures = [];
      this._basicPoints = [];
-     this._basicLinesBetweenPoints= [];
+     this._contourLines= [];
+     this._contourArcs = [];
+     this._sole = [];
      //Amount of figures its used as a counter in the design. The actual amount of figures will be the id of any new figure added to the project.
      this.amountOFFigures = 0;
      this.drawBasicPoints();
@@ -368,10 +479,8 @@ var Design= Class.extend({
          }
          //Point A
          this._basicPoints[0].movePoint(100,100);
-         //Point A curve 1
-         this._basicPoints[1].movePoint(170,147);
-         //Point A curve 2
-         this._basicPoints[2].movePoint(270,147);
+         //Point A curve 
+         this._basicPoints[1].movePoint(220,147);
          //Point B
          this._basicPoints[3].movePoint(400,100);
          //Point C
@@ -380,10 +489,8 @@ var Design= Class.extend({
          this._basicPoints[5].movePoint(600,300);
          //pointE
          this._basicPoints[6].movePoint(100,300);
-         //pointE curve1
-         this._basicPoints[7].movePoint(120,170);
-         //pointECurve2
-         this._basicPoints[8].movePoint(120,250);
+         //pointE curve
+         this._basicPoints[7].movePoint(120,210);
          
          
      },
@@ -394,9 +501,9 @@ var Design= Class.extend({
              var initialPoint = this._basicPoints[amountOfBasicPoint];
              var finalPoint = this._basicPoints[amountOfBasicPoint+1];
              
-             var line = new Line(amountOfBasicPoint, "", "Line", 7, 7,initialPoint.getX() , initialPoint.getY(), finalPoint.getX(), finalPoint.getY());
+             var line = new Line(amountOfBasicPoint, "", "Line", amountOfBasicPoint, amountOfBasicPoint,initialPoint.getX() , initialPoint.getY(), finalPoint.getX(), finalPoint.getY());
                                    
-             this._basicLinesBetweenPoints.push(line);
+             this._contourLines.push(line);
          }
          
          
