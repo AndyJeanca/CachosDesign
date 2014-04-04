@@ -16,6 +16,7 @@ function ProjectManager(){
     //This function is the one that as soon as the program load, it loads canvasManagment
     
     this.startCachosDesign = function(){
+        alert("Hola");
           this.canvasManagment();
           this.drawBasicPoints();
     };
