@@ -1,43 +1,43 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-function Line (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pX2, pY2) {
-    this.prototype = new Figure;
-    Figure.call(this, pId, pLabel, pType, pColor, pBorderSize, pX, pY);
-    var x2 = pX2;
-    var y2 = pY2;
-    
-    this.getX2 = function () {
-      return x2;  
-    }; 
-    
-    this.getY2 = function () {
-        return y2;
-    };
-    
-    this.setX2 = function (pX2) {
-        x2 = pX2;
-    };
-    
-    this.setY2 = function (pY2) {
-        y2 = pY2;
-    };
-    
-    this.prototype.isInPointIn = function () {
+var Line = Figure.extend({
+    init : function (pId, pColor, pBorderSize,pInitialPoint, pEndingPoint) {
         
-    };
+       this._Super(pId, pColor, pBorderSize, pInitialPoint);
+       this.endingPoint=pEndingPoint;
+    },
     
-    this.prototype.drawFigure = function () {
-        var _pointArray = [];
-        _pointArray=this.pointsInRange(pX,x2,y2,pY,pColor,_pointArray);
-        return _pointArray;
-    };
+     getEndingPoint :function () {
+        return this.endingPoint;
+    },
     
-    this.prototype.drawFigure = function () {
+    setEndingPoint : function (pEndingAngle) {
+        this.endingPoint = pEndingAngle;
+    },
+            
+    isInPointIn : function (pPoint) {
+        var _pointInRange =[];
+        _pointInRange = this.pointsInRange(this.initialPoint,this.endingPoint,_pointInRange);
         
-    };
-}
-
-
+        for(var currentPointPosition = 0 ; currentPointPosition>_pointInRange.length;currentPointPosition++){
+            if(pPoint.comparePosition(_pointInRange[currentPointPosition])){
+                return true;
+            }
+            else{
+                
+            }
+        }
+        return false;
+    },
+    
+    drawFigure : function () {
+    var line = new Kinetic.Line({
+        points: [this.initialPoint.getX(),this.initialPoint.getY(),this.endingPoint.getX(),this.finalPoint.getY()],
+        stroke: this.colorList.getColor(this.color),
+        strokeWidth: this.borderSize,
+        lineCap: 'round',
+        draggable : true,
+        lineJoin: 'round'
+      });
+      return line;
+    }
+    
+});

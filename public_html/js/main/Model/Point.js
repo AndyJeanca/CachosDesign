@@ -1,41 +1,60 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-function point(pPosition,pPointX,pPointY,pColor){
-    var position = pPosition;
-    var pointX = pPointX;
-    var pointY = pPointY;
-    var color = pColor;
+var  point = Class.extend({
+    init: function(pPosition,pPointX,pPointY,pColor){
+   
+    //pPosition is the same that id
+    this.position = pPosition;
+    this.pointX = pPointX;
+    this.pointY = pPointY;
     
-    this.setX=function(pX){
-        pointX=pX;
-    };
+ 
+    },
     
-    this.setY=function(pX){
-        pointX=pX;
-    };
     
-    this.getX=function(){
-        return pointX;
-    };
+    setX : function(pX){
+        this.pointX=pX;
+    },
     
-    this.getY=function(){
-        return pointY;
-    };
+    setY : function(pY){
+        this.pointY=pY;
+    },
     
-    this.movePoint = function(pX,pY){
+    getX : function(){
+        return this.pointX;
+    },
+    
+    getY : function(){
+        return this.pointY;
+    },
+    
+    movePoint : function(pX,pY){
         this.setX(pX);
         this.setY(pY);
-    };
+    },
     
-     this.setColor=function(pColor){
-        color=pColor;
-    };
+    setColor : function(pColor){
+        this.color=pColor;
+    },
     
-    this.getColor=function(){
-        return color;
-    };
+    getColor : function(){
+        return this.color;
+    },
     
+    setSize : function(pSize){
+        this.pointSize=pSize;
+    },
     
-}
+    getSize : function(){
+        return this.pointSize;
+    },
+    
+    comparePosition : function(pPoint){
+        if(pPoint.getX()==this.pointX && pPoint.getY()==this.pointY){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
+});

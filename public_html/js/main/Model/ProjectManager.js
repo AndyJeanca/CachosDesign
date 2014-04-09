@@ -1,96 +1,114 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- * 
- */
-
-function ProjectManager(){
-    //var actualDesign = new Design("New");
-    var canvasContext =  document.getElementById("_Canvas").getContext('2d');
-    var currentXpostion;
-    var currentYposition;
+var ProjectManager = Class.extend({
+    init : function(){
+        this.actualDesign = new Design("New");
+        this.currentXpostion = 0;
+        this.currentYposition = 0;
+        this.kineticBase;
+        //This layer contains the basic points and basic lines
+        this.firstLayer;
+    },
     
     
     
     //This function is the one that as soon as the program load, it loads canvasManagment
     
-    this.startCachosDesign = function(){
-        alert("Hola");
-          this.canvasManagment();
-          this.drawBasicPoints();
-    };
- 
+    startCachosDesign : function(){
+      this.kineticManagment();
+      this.firstlayer = new Kinetic.Layer();
+      this.drawBasicPoints();
+      this.drawBasicLines();
+      this.reloadCachosDesign();
+      
+    },
+    reloadCachosDesign : function(){
+        this.kineticBase.add(this.firstlayer);
+    },
+            
     // This is the function that controls the interactions between the user and the canvas
-    this.canvasManagment = function(){
-        canvasContext.canvas.addEventListener('mousemove',function(event){
-        var xPosition = event.clientX - canvasContext.canvas.offsetLeft;
-        var yPosition = event.clientY - canvasContext.canvas.offsetTop;
-        document.getElementById('mousePositionText').innerHTML ='Mouse Position X '+xPosition+' , Y '+yPosition;},false);
-        this.drawBasicPoints();
-        
-    };
+    kineticManagment : function(){
+         this.kineticBase = new Kinetic.Stage({
+            container: 'container',
+            width: 700,
+            height: 400
+          });
+
+    },
     
 
     //These function are to controll the mose movement and to save the x and y position when it is clicked.
     
-    this.drawBasicPoints= function(){
-        var actualPoints=actualDesign.getBasicPoints();
-       
-        for( var amountOfPoints = 0;amountOfPoints<9;amountOfPoints++){
-            var positionX = actualPoints[amountOfPoints].getX();
-            var positionY = actualPoints[amountOfPoints].getY();
-            this.paintApixel(amountOfPoints,amountOfPoints);
-            
-        }
+    drawBasicPoints :  function(){
         
-    };
+        var actualPoints=this.actualDesign.getBasicPoints();
+        for( var amountOfPoints = 0;amountOfPoints<9;amountOfPoints++){
+            var basicPoint = actualPoints[amountOfPoints];
+            this.buildBasicPoint(basicPoint,amountOfPoints);
+            
+            
+              
+        }   
+    },
+    
+    buildBasicPoint: function(pBasicPoint,pPositionOfPoint){
+        var basicPointCircle = new Circle(pPositionOfPoint, 1, 4,pBasicPoint, 7, 1);
+        var basicPoint = basicPointCircle.drawFigure();
 
 
-    this.getActualDesign  = function(){
-        return actualDesign;
-    };
+        basicPoint.on('mouseover',function(){
+            this.radius(12);
+            this.firstlayer.draw();
 
-    this.setActualDesign = function(pActualDesign){
-      actualDesign = pActualDesign;  
-    };
+        });
 
+        basicPoint.on('dragend',function(){
+            var actualPositionPoint = new point(pPositionOfPoint,this.getX(),this.getY(),1);
+            this.actualDesign.modificatePointById(pPositionOfPoint,actualPositionPoint);
+            this.drawBasicLines();
+            this.firstlayer.draw();
+        });
 
-    this.addCircle = function(pLabel, pColor,pBorderSize, pX, pY, pRadius, pFill){
-        actualDesign.addCircle(pLabel, pColor,pBorderSize, pX, pY, pRadius, pFill);
-     };
+        this.firstlayer.add(basicPoint);
+        this.rebuildKinetic();
+           
+    },
+    
+    drawBasicLines : function(){
+        this.actualDesign.createBasicLines();
+        var actualLines= this.actualDesign.getBasicLines();
+        for(var amountOfLines= 0;amountOfLines<5;amountOfLines++){
+           this.firstlayer.add(actualLines[amountOfLines].drawFigure());
+           this.firstlayer.draw();
+       }
+       
+    },
+    
 
-     this.addAsquare = function (pX, pY, pWidth, pHeight) {
-      actualDesign.addSquare(pX, pY, pWidth, pHeight);
-    };
+    getActualDesign  : function(){
+        return this.actualDesign;
+    },
 
-    this.drawAline = function(pXstarting, pYstarting, pXending, pYending) {
-        var designCanvas = document.getElementById("_Canvas").getContext("2d");
-        designCanvas.moveTo(pXstarting, pYstarting);
-        designCanvas.lineTo(pXending, pYending);
-        designCanvas.stroke();
-    };
+    setActualDesign :  function(pActualDesign){
+      this.actualDesign = pActualDesign;  
+    },
+            
+    addCircle :  function(pLabel, pColor,pBorderSize, pX, pY, pRadius, pFill){
+        this.actualDesign.addCircle(pLabel, pColor,pBorderSize, pX, pY, pRadius, pFill);
+     },
 
-    this.drawAarc = function (pX, pY, pRadius, pAngleStarting, pAngleEnding, pAntiClockWise) {
-        var designCanvas = document.getElementById("_Canvas").getContext("2d");
-        designCanvas.beginPath(); 
-        designCanvas.arc(pX, pY, pRadius, pAngleStarting, pAngleEnding, pAntiClockWise); 
-        designCanvas.stroke(); 
-    };
+    addAsquare : function (pX, pY, pWidth, pHeight) {
+      this.actualDesign.addSquare(pX, pY, pWidth, pHeight);
+    },
 
-    this.drawFigure=function(pId){
+    
+   drawFigure : function(pId){
        var _FigureToDraw = actualDesign.getFigure(pId);
        var pointsToDraw = _FigureToDraw.drawFigure();
        drawFromList(pointsToDraw);
-     };
+     },
 
-    this.paintApixel= function(pX, pY) {  
-        var designCanvas = document.getElementById("_Canvas").getContext("2d");
-        designCanvas.fillRect(pX, pY, 1, 1);
-        designCanvas.stroke(); 
-    };
+    
 
-    this.drawFromList=function(pListOfPoints){
+    drawFromList : function(pListOfPoints){
         var ListOfPoints = [];
         ListOfPoints =pListOfPoints;
 
@@ -98,19 +116,24 @@ function ProjectManager(){
 
         for(var positionOfActualPoint = 0; positionOfActualPoint<amountOfPointsLeft;positionOfActualPoint++){
             var actualPoint = getPointfromListById(positionOfActualPoint,ListOfPoints);
-            paintApixel(actualPoint.getX(),actualPoint.getY());
+            this.paintApixel(actualPoint.getX(),actualPoint.getY());
         }
-    };
+    },
 
-    this.getPointfromListById = function(pId,pListOfPoints){
+    getPointfromListById : function(pId,pListOfPoints){
            var ListOfPoints = [];
            ListOfPoints =pListOfPoints;
            var arrayWithfigureWithTheId = ListOfPoints.slice(pId,pId);
            var figureWithTheId = arrayWithfigureWithTheId.pop();
            return figureWithTheId;
-         };
-    }
+         }
+    });
     
-    window.addEventListener('load',function(){
-        projectObject = new ProjectManager();
-        projectObject.startCachosDesign();});
+      window.addEventListener('load',function(){
+       var projectObject = new ProjectManager();
+       projectObject.startCachosDesign();
+  
+  
+        
+     
+   });

@@ -1,84 +1,59 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-function Circle (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pRadius, pFill) {
-    this.prototype = new Figure;
-    Figure.call(this, pId, pLabel, pType, pColor, pBorderSize, pX, pY);
-    var radius = pRadius;
-    var fill = pFill;
+var Circle = Figure.extend({
     
-    this.getRadius = function () {
-        return radius;
-    };
+    init: function(pId, pColor, pBorderSize,pInitialPoint, pRadius, pFill) {
+        this._super(pId, pColor, pBorderSize,pInitialPoint);
+        this.radius = pRadius;
+        //Is the color of the filler
+        this.fill = pFill;
+    },
     
-    this.getFill = function () {
-        return fill;
-    };
+    getRadius : function () {
+        return this.radius;
+    },
     
-    this.setRadius = function (pRadius) {
-        radius = pRadius;
-    };
+    getFill : function () {
+        return this.fill;
+    },
     
-    this.setFill = function (pFill) {
-        fill = pFill;
-    };
+    setRadius : function (pRadius) {
+        this.radius = pRadius;
+    },
     
-    this.prototype.isInPointIn = function (pX,pY) {
+    setFill : function (pFill) {
+        this.fill = pFill;
+    },
+    
+    isInPointIn : function (pPoint) {
         //We are making a range between the borders of the circle to know if the pont x,y 
         //its in the area of the circle
-        var pointX1 = (this.getX() - this.getRadius());
-        var pointX2 = (this.getX() + this.getRadius());
+        var pointX1 = (this.initialPoint.getX() - this.getRadius());
+        var pointX2 = (this.initialPoint.getX() + this.getRadius());
         
-        var pointY1 = (this.getY() - this.getRadius());
-        var pointY2 = (this.getY() + this.getRadius());
+        var pointY1 = (this.initialPoint.getY() - this.getRadius());
+        var pointY2 = (this.initialPoint.getY() + this.getRadius());
         
-        if((pX>=pointX1 && pX<=pointX2)&&(pY>=pointY1 && pY<=pointY2)){
+        if((pPoint.getX()>=pointX1 && pPoint.getX()<=pointX2)&&(pPoint.getY()>=pointY1 && pPoint.getY()<=pointY2)){
             return true;
         }
         else{
             return false;
         }
         
-    };
+    },
     
-    this.prototype.drawFigure = function () {
-        var _pointArray = [];
-        var pointX1 = (this.getX() - this.getRadius());
-        var pointX2 = (this.getX() + this.getRadius());
-        
-        var pointY1 = (this.getY() - this.getRadius());
-        var pointY2 = (this.getY() + this.getRadius());
-        
-        var distanceBetweenPoints = 0;
-        for(pointY2;pointY2>pointY1;pointY2--){
-            _pointArray=this.pointsInRange(pX-distanceBetweenPoints,pX+distanceBetweenPoints,pointY2,pointY2,pColor,_pointArray);
-            if(pointY2>pY){
-                distanceBetweenPoints++;
-            }
-            else{
-                distanceBetweenPoints--;
-            }
-        }
-        return _pointArray;
-        
-        
-        
-    };
-   
-    this.prototype.drawFigure = function () {
-        
-    };
-                
-}
+    drawFigure : function () {
 
+        var circle = new Kinetic.Circle({
+        x: this.initialPoint.x,
+        y: this.initialPoint.y,
+        radius: this.radius,
+        fill: this.colorList.getColor(this.color),
+        stroke: 'black',
+        draggable : true,
+        strokeWidth: this.borderSize
+      });
 
-
-    
-   
-    
-
-
-
+     return circle;
+        
+    }               
+});

@@ -1,51 +1,68 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-function Square (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pWidth, pHeight, pFill) {
-    this.protype = new Figure;
-    Figure.call (pId, pLabel, pType, pColor, pBorderSize, pX, pY);
-    var width = pWidth;
-    var height = pHeight;
-    var fill = pFill;
+var Square = Figure.extend({
+    init : function(pId, pColor, pBorderSize, pInitialPoint, pWidth, pHeight, pFill) {
+    this._super(pId, pColor, pBorderSize, pInitialPoint);
+    this.width = pWidth;
+    this.height = pHeight;
     
-    this.getWidth = function () {
-      return width;  
-    };
+    //Is the color of the filler
+    this.fill = pFill;
+    },
     
-    this.getHeight = function () {
-        return height;
-    };
+    getWidth : function () {
+      return this.width;  
+    },
     
-    this.getFill = function () {
-        return fill;
-    };
+    getHeight : function () {
+        return this.height;
+    },
     
-    this.setWidth = function (pWidth) {
-      width = pWidth;  
-    };
+    getFill : function () {
+        return this.fill;
+    },
     
-    this.setHeight = function (pHeight) {
-        height = pHeight;
-    };
+    setWidth : function (pWidth) {
+      this.width = pWidth;  
+    },
     
-    this.setFill = function () {
-      fill = pFill;  
-    };
+    setHeight : function (pHeight) {
+        this.height = pHeight;
+    },
     
-    this.prototype.isInPointIn = function () {
+    setFill : function () {
+      this.fill = pFill;  
+    },
+    
+    isInPointIn : function (pPoint) {
+        var pointX1 = (this.initialPoint.getX() - this.width/2);
+        var pointX2 = (this.initialPoint.getX() + this.width/2);
         
-    };
-    
-    this.prototype.drawFigure = function () {
+        var pointY1 = (this.initialPoint.getY() - this.height/2);
+        var pointY2 = (this.initialPoint.getY() + this.height/2);
         
-    };
-    
-    this.prototype.drawFigure = function () {
+       if((pPoint.getX()>=pointX1 && pPoint.getX()<=pointX2)&&(pPoint.getY()>=pointY1 && pPoint.getY()<=pointY2)){
+            return true;
+        }
+        else{
+            return false;
+        }
         
-    };
-}
+        
+    },
+    
+    drawFigure : function () {
+    var rect = new Kinetic.Rect({
+        x: this.x,
+        y: this.y,
+        width: this.width,
+        height: this.height,
+        fill: this.colorList.getColot(color),
+        stroke: 'black',
+        draggable : true,
+        strokeWidth: this.borderSize
+      });
 
-
-
+      return rect
+        
+    }
+    
+});

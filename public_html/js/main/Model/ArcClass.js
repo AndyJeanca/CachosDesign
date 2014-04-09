@@ -1,59 +1,57 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
- Arc  (pId, pLabel, pType, pColor, pBorderSize, pX, pY, pStartingAngle, pEndingAngle, pRadius, pAntiClockWise) {
-    this.prototype = new Figure;
-    Figure.call(this, pId, pLabel, pType, pColor, pBorderSize, pX, pY);
-    var startingAngle = pStartingAngle;
-    var endingAngle = pEndingAngle;
-    var radius = pRadius;
-    var antiClockWise = pAntiClockWise;
+var Arc = Figure.extend({  
     
-    this.getStartingAngle = function () {
-        return startingAngle;
-    };
-    
-    this.getEndingAngle = function () {
-        return endingAngle;
-    };
-    
-    this.getRadius = function () {
-        return radius;
-    };
-    
-    this.getAntiClockWise = function () {
-        return antiClockWise;
-    };
-    
-    this.setStartingAngle = function (pStartingAngle) {
-        startingAngle = pStartingAngle;
-    };
-    
-    this.setEndingAngle = function (pEndingAngle) {
-        endingAngle = pEndingAngle;
-    };
-    
-    this.setRadius = function (pRadius) {
-        radius = pRadius;
-    };
-    
-    this.setAntiClockWise = function (pAntiClockWise) {
-      antiClockWise = pAntiClockWise;
-    };
-    
-    this.prototype.isInPointIn = function () {
+    init : function(pId, pColor, pBorderSize,pInitialPoint, pMidlePoint, pEndingPoint) {
         
-    };
-    
-    this.prototype.drawFigure = function () {
+        this._Super(pId, pColor, pBorderSize, pInitialPoint);
+        //_points is an array composed by two points the (initial point will be a point composed by the pX,pY, the middle point and the finalpoint
+       this.midlePoint = pMidlePoint;
+       this.endingPoint=pEndingPoint;
         
-    };
+    },
+    getMiddlePoint: function () {
+        return this.midlePoint;
+    },
     
-    this.prototype.drawFigure = function () {
+    getEndingPoint :function () {
+        return this.endingPoint;
+    },
+    
+    
+    setMiddlePoint : function (pStartingAngle) {
+         this.midlePoint = pStartingAngle;
+    },
+    
+    setEndingPoint : function (pEndingAngle) {
+        this.endingPoint = pEndingAngle;
+    },
+     
+    isInPointIn : function (pPoint) {
+        var _pointInRange =[];
+        _pointInRange = this.pointsInRange(this.initialPoint,this.middlePoint,_pointInRange);
+        _pointInRange = this.pointsInRange(this.middlePoint,this.endingPoint,_pointInRange);
         
-    };
-}
-
-
+        for(var currentPointPosition = 0 ; currentPointPosition>_pointInRange.length;currentPointPosition++){
+            if(pPoint.comparePosition(_pointInRange[currentPointPosition])){
+                return true;
+            }
+            else{
+                
+            }
+        }
+        return false;
+        
+    },
+    
+    drawFigure : function () {
+        var arc = new Kinetic.Line({
+        points: [this.initialPoint.getX(),this.initialPoint.getY(),this.midlePoint.getX(),this.midlePoint.getX(),this.endingPoint.getX(),this.finalPoint.getY()],
+        stroke: this.colorList.getColor(this.color),
+        strokeWidth: this.borderSize,
+        lineCap: 'round',
+        draggable : true,
+        tension: 1
+      });
+	return arc; 
+    }
+    
+});

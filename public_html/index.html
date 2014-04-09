@@ -16,12 +16,12 @@
 
         <link rel="stylesheet" href="css/normalize.min.css" />
         <link rel="stylesheet" href="css/style.css" />
-
-        <script src="js/main/main.js"></script>
+       <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.2.min.js"></script>
+       <script defer="defer" src="main.js"></script>
     </head>
     <body>
 
-        <div class="header-container">
+        <div class="header-container" id="kineticContainer">
             <header class="wrapper clearfix">
                 <h1 class="title">CachosDesign</h1>
                 <nav>
@@ -35,10 +35,10 @@
         </div>
 
         <div class="main-container">
-            <div class="main wrapper clearfix">
+            <div class="main wrapper clearfix" >
+                <div id="container">
                  
                
-                <canvas id="_Canvas" width="700" height="400"></canvas>
            
 
             </div> <!-- #main -->
