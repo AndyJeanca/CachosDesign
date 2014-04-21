@@ -62,6 +62,23 @@
 .title {
   color: white;
 }
+#containerOfFigures{
+    float: bottom;
+    height:100%;
+    background: coral;
+    
+}
+ #container{
+     float: top;
+     margin:0 auto;
+    
+}
+#containerOfDesigns {
+    float: left;
+     margin:10px;
+    background: coral;
+    
+}
 
 /* ==========================================================================
    Helper classes

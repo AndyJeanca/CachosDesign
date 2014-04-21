@@ -68,7 +68,7 @@ var Colors = Class.extend({
     },
    loadColors : function(){
        //Blue 
-       for(var numberOfColors = 0 ; numberOfColors<16; numberOfColors++){
+       for(var numberOfColors = 0 ; numberOfColors<17; numberOfColors++){
            this._colors.push("");
        };
        //Red 1 
@@ -103,7 +103,8 @@ var Colors = Class.extend({
        this._colors[14]="#3333FF";
         //Blue 3
        this._colors[15]="#3399FF";
-       
+       //Blue 3
+       this._colors[16]="#FFFFFF";
  
  
      },
@@ -122,10 +123,7 @@ var  point = Class.extend({
     this.position = pPosition;
     this.pointX = pPointX;
     this.pointY = pPointY;
-    
- 
     },
-    
     
     setX : function(pX){
         this.pointX=pX;
@@ -170,10 +168,8 @@ var  point = Class.extend({
         }
         else{
             return false;
-        }
-        
+        }    
     }
-    
 });
 var Figure = Class.extend({
    
@@ -210,12 +206,12 @@ var Figure = Class.extend({
     return this.borderSize;
     },
         
-    getInitailPoint : function(){
+    getInitialPoint : function(){
     return this.initialPoint;
     },
+   
     
-    
-    setX : function(pPoint) {
+     setInitialPoint : function(pPoint) {
         this.initialPoint= pPoint;
     },
  
@@ -242,6 +238,17 @@ var Figure = Class.extend({
     drawFigure : function () {
         
     },
+    
+    paintFigure : function () {
+        
+    },
+     
+   
+    movePoint : function(pPointX,pPointY) {
+        this.initialPoint.setX(pPointX);
+        this.initialPoint.setY(pPointY);
+
+    },
             
     /*Points in range is a function that add all the points that are between the range given in pointInRange
     *We are giving the array because we want that no matter if the array is empty or with elements,
@@ -258,13 +265,10 @@ var Figure = Class.extend({
     }
 });
 var Square = Figure.extend({
-    init : function(pId, pColor, pBorderSize, pInitialPoint, pWidth, pHeight, pFill) {
+    init : function(pId, pColor, pBorderSize, pInitialPoint, pWidth, pHeight) {
     this._super(pId, pColor, pBorderSize, pInitialPoint);
     this.width = pWidth;
     this.height = pHeight;
-    
-    //Is the color of the filler
-    this.fill = pFill;
     },
     
     getWidth : function () {
@@ -275,9 +279,7 @@ var Square = Figure.extend({
         return this.height;
     },
     
-    getFill : function () {
-        return this.fill;
-    },
+    
     
     setWidth : function (pWidth) {
       this.width = pWidth;  
@@ -286,36 +288,33 @@ var Square = Figure.extend({
     setHeight : function (pHeight) {
         this.height = pHeight;
     },
-    
-    setFill : function () {
-      this.fill = pFill;  
-    },
-    
-    isInPointIn : function (pPoint) {
-        var pointX1 = (this.initialPoint.getX() - this.width/2);
-        var pointX2 = (this.initialPoint.getX() + this.width/2);
-        
-        var pointY1 = (this.initialPoint.getY() - this.height/2);
-        var pointY2 = (this.initialPoint.getY() + this.height/2);
-        
-       if((pPoint.getX()>=pointX1 && pPoint.getX()<=pointX2)&&(pPoint.getY()>=pointY1 && pPoint.getY()<=pointY2)){
-            return true;
-        }
-        else{
-            return false;
-        }
-        
-        
-    },
+   
     
     drawFigure : function () {
     var rect = new Kinetic.Rect({
-        x: this.x,
-        y: this.y,
+        x: this.initialPoint.getX(),
+        y: this.initialPoint.getY(),
         width: this.width,
         height: this.height,
-        fill: this.colorList.getColot(color),
-        stroke: 'black',
+        opacity : 0.5,
+        fill: this.colorList.getColor(16) ,
+        stroke: this.colorList.getColor(0) ,
+        draggable : true,
+        strokeWidth: this.borderSize
+      });
+
+      return rect;
+        
+    },
+    paintFigure : function () {
+    var rect = new Kinetic.Rect({
+        x: this.initialPoint.getX(),
+        y: this.initialPoint.getY(),
+        width: this.width,
+        height: this.height,
+        opacity : 0.5,
+        fill: this.colorList.getColor(this.color),
+        stroke: this.colorList.getColor(this.color) ,
         draggable : true,
         strokeWidth: this.borderSize
       });
@@ -348,8 +347,8 @@ var Arc = Figure.extend({
          this.middlePoint = pStartingAngle;
     },
     
-    setEndingPoint : function (pEndingAngle) {
-        this.endingPoint = pEndingAngle;
+    setEndingPoint : function (pEndingPoint) {
+        this.endingPoint = pEndingPoint;
     },
      
     isInPointIn : function (pPoint) {
@@ -407,7 +406,15 @@ var Circle = Figure.extend({
     setFill : function (pFill) {
         this.fill = pFill;
     },
-    
+            
+     getX : function(){
+        return this.initialPoint.getX();
+     }, 
+             
+     getY : function(){
+        return this.initialPoint.getY();
+     },
+             
     isInPointIn : function (pPoint) {
         //We are making a range between the borders of the circle to know if the pont x,y 
         //its in the area of the circle
@@ -425,21 +432,37 @@ var Circle = Figure.extend({
         }
         
     },
-    
     drawFigure : function () {
         var circle = new Kinetic.Circle({
         x: this.initialPoint.getX(),
         y: this.initialPoint.getY(),
         radius: this.radius,
-        fill: this.colorList.getColor(this.color),
-        stroke: 'black',
+        fill: this.colorList.getColor(16) ,
+        stroke: this.colorList.getColor(0) ,
+        opacity: 0.75,
         draggable : true,
         strokeWidth: this.borderSize
       });
 
      return circle;
         
-    }               
+    },
+    paintFigure : function (){
+        var circle = new Kinetic.Circle({
+        x: this.initialPoint.getX(),
+        y: this.initialPoint.getY(),
+        radius: this.radius,
+        fill: this.colorList.getColor(this.color),
+        stroke: this.colorList.getColor(this.color) ,
+        opacity: 0.75,
+        draggable : true,
+        strokeWidth: this.borderSize
+      });
+
+     return circle;
+        
+        
+    }
 });
 var Line = Figure.extend({
     init : function (pId, pColor, pBorderSize,pInitialPoint, pEndingPoint) {
@@ -452,9 +475,18 @@ var Line = Figure.extend({
         return this.endingPoint;
     },
     
-    setEndingPoint : function (pEndingAngle) {
-        this.endingPoint = pEndingAngle;
+    setEndingPoint : function (pEndingPoint) {
+        this.endingPoint = pEndingPoint;
     },
+    modifyLine : function( pInitialPoint,pEndingPoint){
+        this.setInitialPoint(pInitialPoint);
+        this.setEndingPoint(pEndingPoint);
+        
+    },
+    
+    
+   
+   
             
     isInPointIn : function (pPoint) {
         var _pointInRange =[];
@@ -474,28 +506,142 @@ var Line = Figure.extend({
     drawFigure : function () {
     var line = new Kinetic.Line({
         points: [this.initialPoint.getX(),this.initialPoint.getY(),this.endingPoint.getX(),this.endingPoint.getY()],
+        stroke: this.colorList.getColor(0),
+        strokeWidth: this.borderSize,
+        lineCap: 'round',
+        draggable : true,
+        lineJoin: 'round',
+        opacity: 0.75
+      });
+      return line;
+    },
+    paintFigure : function () {
+    var line = new Kinetic.Line({
+        points: [this.initialPoint.getX(),this.initialPoint.getY(),this.endingPoint.getX(),this.endingPoint.getY()],
         stroke: this.colorList.getColor(this.color),
         strokeWidth: this.borderSize,
         lineCap: 'round',
         draggable : true,
-        lineJoin: 'round'
+        lineJoin: 'round',
+        opacity: 0.75
       });
       return line;
     }
     
+    
+});
+var Sector = Class.extend({
+        init : function (pFirstPoint,pSecondPoint,pThirdPoint,pForthPoint){
+            this._sectorPoints = [];
+            
+            this._sectorPoints.push(pFirstPoint);
+            this._sectorPoints.push(pSecondPoint);
+            this._sectorPoints.push(pThirdPoint);
+            this._sectorPoints.push(pForthPoint);
+            this.pointSort();
+            
+            
+        },
+                
+        /*This function sort the point in order that:
+         * the firstPoint is the onw top-left
+         * the secondPoint is the one in the top-right
+         * the third one is the one down-left
+         * the forth one is the one down rigth
+         */
+        pointSort : function(){
+            this.highestToLowestPointSort();
+            this.leftAndRightSort();
+    
+        },
+                
+       //In this sort we are sorting from the one with the lowest x value (because that means is the highest) to the one with lthe highest point x
+        highestToLowestPointSort : function(){
+            for(var amountOfPoints = 0;amountOfPoints<3;amountOfPoints++ ){
+                var point1ToCompare = this._sectorPoints[amountOfPoints];
+                var point2ToCompare = this._sectorPoints[amountOfPoints+1];
+                if(point1ToCompare.getX()>point2ToCompare.getX()){
+                    //Switch the points
+                   this._sectorPoints[amountOfPoints]=point2ToCompare;
+                   this._sectorPoints[amountOfPoints+1]=point1ToCompare;
+                   //Reset the cycle
+                   this.highestToLowestPointSort();
+                 
+                };
+            };
+    
+        },
+                
+        leftAndRightSort : function(){
+             alert(this._sectorPoints[0].getX());
+             alert(this._sectorPoints[1].getX());
+             alert(this._sectorPoints[2].getX());
+             alert(this._sectorPoints[3].getX());
+            //This function is after the highestToLowestPointSort()
+            var point1HighToCompare = this._sectorPoints[0];
+            var point2HighToCompare = this._sectorPoints[1];
+            
+            if(point1HighToCompare.getY()>point2HighToCompare.getY()){
+                //Switch
+                this._sectorPoints[0]=point2HighToCompare;
+                this._sectorPoints[1]=point1HighToCompare;
+                
+                
+            };
+            
+            var point1LowToCompare = this._sectorPoints[2];
+            var point2LowToCompare = this._sectorPoints[3];
+           
+            
+            if(point1LowToCompare.getY()>point2LowToCompare.getY()){
+                //Switch
+                this._sectorPoints[2]=point2LowToCompare;
+                this._sectorPoints[3]=point1LowToCompare;
+                
+                
+            };
+            
+            
+            
+    
+        },
+        
+        getPoints : function(){
+    
+           return this._sectorPoints;
+                
+        }
+        /*
+         * To paint the sector is divided into two parts partLeft and PartRight.
+         * Part Left = are all points from the point high-left to point low-left and to point low-right
+         * Part Right= are all points from point high-left to point high-right and to point low-right
+         *
+         *then we make lines that go from one part to the other part
+         */
+        
+                
+        
+        
+        
+
+   
 });
 var Design= Class.extend({
     init : function (pDesignName){
         
-     this._DesignName =pDesignName;
+        this._DesignName =pDesignName;
      
-        
-        
         //figures is a array composed of all the child classes of figure(Arc,Line,Circle,Square)
         this._figures = [];
-         
+        
+        /*_lineFigures is an array composed by all the ids of the figure lines. It is used to know where the lines are because
+         * in _figures the lines are always after the two endpoints that determine how the line is.
+         */
+        this._lineFigures = [];
+        
         //Basic point is a list composed of the 5 basic points that all design have
          this._basicPoints = [];
+         
          /*Conotour lines is composed 
           * by two straight basic lines, 
           * two curved basic lines and a 
@@ -508,6 +654,7 @@ var Design= Class.extend({
          this.amountOFFigures = 0;
          
          this.ubicateBasicPoints();
+         
          this.createContourLines();
     },
      
@@ -538,6 +685,17 @@ var Design= Class.extend({
         this._basicPoints[pId].movePoint(pPoint.getX(),pPoint.getY());
  
      },
+             
+     modificateFigureById : function (pId,pPoint){
+        this._figures[pId].movePoint(pPoint.getX(),pPoint.getY());
+ 
+     },
+     
+     modificateFigureColorById : function (pId,pColor){
+        this._figures[pId].setColor(pColor);
+ 
+     },
+     
      createBasicLines : function(){
         this._contourLines= [];
         this.createContourLines();
@@ -599,22 +757,41 @@ var Design= Class.extend({
      
      
      addCircle : function(pColor, pBorderSize,pInitialPoint, pRadius, pFill){
-         var newCircle = Circle(this.amountOFFigures, pColor, pBorderSize,pInitialPoint, pRadius, pFill);
+         var newCircle = new Circle(this.amountOFFigures, pColor, pBorderSize,pInitialPoint, pRadius, pFill);
          this._figures.push(newCircle);
          this.amountOFFigures++;
      },
      
-     addSquare : function (pId, pColor, pBorderSize, pInitialPoint, pWidth, pHeight, pFill){
-         var newSquare = Square(this.amountOFFigures, pColor, pBorderSize, pInitialPoint, pWidth, pHeight, pFill);
+     addSquare : function (pColor, pBorderSize, pInitialPoint, pWidth, pHeight){
+         var newSquare = new Square(this.amountOFFigures, pColor, pBorderSize, pInitialPoint, pWidth, pHeight);
          this._figures.push(newSquare);
          this.amountOFFigures++;  
      },
      
      addLine  : function ( pColor, pBorderSize,pInitialPoint, pEndingPoint){
-         var newLine = Line(this.amountOFFigures, pColor, pBorderSize,pInitialPoint, pEndingPoint);
+         this.addCircle(pColor, pBorderSize,pInitialPoint, 7,1);
+         this.addCircle(pColor, pBorderSize,pEndingPoint, 7,1); 
+         var newLine = new Line(this.amountOFFigures, pColor, pBorderSize,pInitialPoint, pEndingPoint);
          this._figures.push(newLine);
+         this._lineFigures.push(this.amountOFFigures);
          this.amountOFFigures++;  
      },
+    
+    
+     reloadFigureLines : function(){
+        for(var actualLine = 0; actualLine< this._lineFigures.length;actualLine++){
+            //linePositionFigure is the position where the line is in _figure and it is stored in _lineFigures
+            var linePositionInFigure= this._lineFigures[actualLine];
+            
+            //The initial point and the ending point of the line are right behind it.
+            var newEndingPoint = this._figures[linePositionInFigure-1].getInitialPoint();
+            var newInitialPoint = this._figures[linePositionInFigure-2].getInitialPoint();
+            this._figures[linePositionInFigure].modifyLine(newInitialPoint,newEndingPoint);
+            
+        }
+        
+    
+      },
      
      getBasicPoints : function(){
          return this._basicPoints;
@@ -627,7 +804,12 @@ var Design= Class.extend({
      // As we are using the following functions to get a figure by its id
      
      getFigure : function(pId){
-       return this._figures[pId];
+       var figureDraw=this._figures[pId];
+       return figureDraw;
+     },
+     
+     getAmountOfFigures : function(){
+        return this.amountOFFigures;
      },
      
      modificateConourColor : function(pColor){
@@ -677,16 +859,14 @@ var Design= Class.extend({
          
      }
  });
-
 var ProjectManager = Class.extend({
     init : function(){
         this.actualDesign = new Design("New");
-        this.currentXpostion = 0;
-        this.currentYposition = 0;
+        this.currentXpostion = 170;
+        this.currentYposition = 170;
         this.kineticBase;
         //This layer contains the basic points and basic lines
         this.firstlayer = new Kinetic.Layer();
-        this.message = 'hola :)!!!';
     },
     
     
@@ -694,13 +874,13 @@ var ProjectManager = Class.extend({
     //This function is the one that as soon as the program load, it loads canvasManagment
     
     startCachosDesign : function(){
+        
       this.kineticManagment();
       this.cleanLayer();
       this.reloadCachosDesign();
+      this.drawFigures();
       this.drawBasicLines();
       this.drawBasicPoints();
-      
-      
       
     },
     cleanLayer : function(){
@@ -721,11 +901,6 @@ var ProjectManager = Class.extend({
 
     },
     
-    
-    alarm : function (){
-        alert(this.currentXpostion);
-    },
-    
 
     //These function are to controll the mose movement and to save the x and y position when it is clicked.
     
@@ -735,8 +910,6 @@ var ProjectManager = Class.extend({
         for( var amountOfPoints = 0;amountOfPoints<9;amountOfPoints++){
             var basicPoint = actualPoints[amountOfPoints];
             this.buildBasicPoint(basicPoint,amountOfPoints,this);
-            
-            
               
         }   
     },
@@ -744,7 +917,7 @@ var ProjectManager = Class.extend({
     buildBasicPoint: function(pBasicPoint,pPositionOfPoint,pProject){
         var actualProject = pProject;
         var basicPointCircle = new Circle(pPositionOfPoint, 1, 4,pBasicPoint, 7, 1);
-        var basicPoint = basicPointCircle.drawFigure();
+        var basicPoint = basicPointCircle.paintFigure();
         
         var drawInProject = function(){
             actualProject.firstlayer.draw();
@@ -761,6 +934,12 @@ var ProjectManager = Class.extend({
             this.radius(12);
             drawInProject();
         });
+        
+        basicPoint.on('mouseout',function(){
+            this.radius(7);
+            drawInProject();
+        });
+        
         basicPoint.on('dragend',function(){
             var newBasicPoint = new point (pPositionOfPoint,this.getX(),this.getY(),5);
             updatePoint(newBasicPoint);
@@ -769,9 +948,93 @@ var ProjectManager = Class.extend({
         this.firstlayer.add(basicPoint);
         this.reloadCachosDesign();
            
-    },       
+    },
+    
+     createConfiguration : function(pFigureId,pX,pY){
+    var boxGeneralGroup = new Kinetic.Group({
+        x: pX,
+        y: pY
+        
+    });
+    var colorGroup=new Kinetic.Group({
+        
+    });
+    var colorList = new Colors();
+    for(var actualColor = 0; actualColor<16 ; actualColor++){
+        var positionPoint = new point (0,actualColor*2,actualColor*2,5)
+        var circleForColor = new Circle(0, 1, 4,positionPoint, 4, actualColor);
+        var colorDrawn = circleForColor.paintFigure();
+       colorDrawn.on('mouseover',function(){
+            this.radius(7);
+            this.firstlayer.draw();
+        });
+        
+        colorDrawn.on('mouseout',function(){
+            this.radius(4);
+            this.firstlayer.draw();
+        });
+        
+        colorDrawn.on('click',function(){
+            this.actualDesign.modificateFigureColorById(pFigureId,actualColor);
+        });
+        
+        
+        colorGroup.add(colorDrawn);
+        
+    }
+    
+    this.firstLayer.add(colorGroup);
+    this.reloadCachosDesign();
+
+    },
     
     
+    buildFigure: function(pFigureDrawn,pPositionOfFigures,pProject){
+        var actualProject = pProject;
+        
+        var drawInProject = function(){
+            actualProject.firstlayer.draw();
+        };
+        
+        var updatePoint = function(pNewPoint){
+            actualProject.actualDesign.modificateFigureById(pPositionOfFigures,pNewPoint);
+            actualProject.startCachosDesign();
+            
+        };
+        
+        var openConfigurationBox = function(pX,pY){
+            alert( 'Double Click');
+            this.createConfiguration(pFigureDrawn,pX,pY);
+            
+        };
+        
+        
+        pFigureDrawn.on('mouseover',function(){
+            this.opacity(1);
+            drawInProject();
+        });
+        
+        pFigureDrawn.on('mouseout',function(){
+            this.opacity(0.5);
+            drawInProject();
+        });
+        
+        pFigureDrawn.on('dragend',function(){
+            var newBasicPoint = new point (pPositionOfFigures,this.getX(),this.getY(),5);
+            updatePoint(newBasicPoint);
+        });
+        
+        pFigureDrawn.on('dblclick',function(){
+            openConfigurationBox(this.getX(),this.getY());
+            
+        });
+        
+        this.firstlayer.add(pFigureDrawn);
+        this.reloadCachosDesign();
+           
+    },
+    
+   
     drawBasicLines : function(){
         this.actualDesign.createBasicLines();
         var actualLines= this.actualDesign.getBasicLines();
@@ -782,6 +1045,15 @@ var ProjectManager = Class.extend({
        }
        
     },
+     pointFromCurrentPosition : function(){
+        var pointInCurrentPosition = new point (0,this.currentXpostion,this.currentYposition,1);
+        return pointInCurrentPosition;
+     },
+     
+     endingPointFromCurrentPositionForLine : function(){
+        var pointInCurrentPosition = new point (0,this.currentXpostion+40,this.currentYposition+40,1);
+        return pointInCurrentPosition;
+     },
     
     getActualDesign  : function(){
         return this.actualDesign;
@@ -791,35 +1063,31 @@ var ProjectManager = Class.extend({
       this.actualDesign = pActualDesign;  
     },
             
-    addCircle :  function(pLabel, pColor,pBorderSize, pX, pY, pRadius, pFill){
-        this.actualDesign.addCircle(pLabel, pColor,pBorderSize, pX, pY, pRadius, pFill);
+    addCircle :  function( pColor, pBorderSize,pInitialPoint, pRadius, pFill){
+        this.actualDesign.addCircle(pColor, pBorderSize,pInitialPoint, pRadius, pFill);
      },
 
-    addAsquare : function (pX, pY, pWidth, pHeight) {
-      this.actualDesign.addSquare(pX, pY, pWidth, pHeight);
+    addSquare : function (pColor, pBorderSize, pInitialPoint, pWidth, pHeight){
+       this.actualDesign.addSquare(pColor, pBorderSize, pInitialPoint, pWidth, pHeight);
+    },
+    addLine :  function (pColor, pBorderSize,pInitialPoint, pEndingPoint){
+         this.actualDesign.addLine(pColor, pBorderSize,pInitialPoint, pEndingPoint);
+
+
+    },
+    
+    drawFigures : function(){
+    this.actualDesign.reloadFigureLines();
+    for(var actualFigure = 0; actualFigure<this.actualDesign.getAmountOfFigures();actualFigure++){
+        var _FigureToDraw = this.actualDesign.getFigure(actualFigure);
+        var figureDrawn = _FigureToDraw.drawFigure();
+        this.buildFigure(figureDrawn,actualFigure,this);
+        
+    }
+
     },
 
-    
-   drawFigure : function(pId){
-       var _FigureToDraw = actualDesign.getFigure(pId);
-       var pointsToDraw = _FigureToDraw.drawFigure();
-       drawFromList(pointsToDraw);
-     },
-
-    
-
-    drawFromList : function(pListOfPoints){
-        var ListOfPoints = [];
-        ListOfPoints =pListOfPoints;
-
-        var amountOfPointsLeft=ListOfPoints.length;
-
-        for(var positionOfActualPoint = 0; positionOfActualPoint<amountOfPointsLeft;positionOfActualPoint++){
-            var actualPoint = getPointfromListById(positionOfActualPoint,ListOfPoints);
-            this.paintApixel(actualPoint.getX(),actualPoint.getY());
-        }
-    },
-
+ 
     getPointfromListById : function(pId,pListOfPoints){
            var ListOfPoints = [];
            ListOfPoints =pListOfPoints;
@@ -828,41 +1096,28 @@ var ProjectManager = Class.extend({
            return figureWithTheId;
          }
     });
-    
       window.addEventListener('load',function(){
-       var projectObject = new ProjectManager();
+       projectObject = new ProjectManager();
        projectObject.startCachosDesign();
-  
-  
-        
-     
+      
+       
    });
-
-    
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-    
-    
-    
    
+   addCircleClick = function(){
+       var initialPoint = projectObject.pointFromCurrentPosition();
+       projectObject.addCircle(1, 1,initialPoint, 40, 1);
+       projectObject.startCachosDesign();
+   };
+   
+    addLineClick = function(){
+       var initialPoint = projectObject.pointFromCurrentPosition();
+       var endingPoint = projectObject.endingPointFromCurrentPositionForLine();
+       projectObject.addLine(1, 1,initialPoint, endingPoint);
+       projectObject.startCachosDesign();
+   };
+   
+   addSquareClick = function(){
+       var initialPoint = projectObject.pointFromCurrentPosition();
+       projectObject.addSquare(1, 1, initialPoint, 40, 40);
+       projectObject.startCachosDesign();
+   };
