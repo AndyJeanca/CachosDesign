@@ -34,20 +34,16 @@
     
     // This function save a design in parse.com
     function saveDesign (pDesign) {
-        var tempDesign = new Design("Mercurial");
-        tempDesign.addCircle(1, 1, 1, 1, 1, 1);
-        tempDesign.addLine(2, 2, 2, 2);
-        tempDesign.addSquare(3, 3, 3, 3, 3);
-        pDesign = tempDesign;
+        var actualDesign = pDesign;
         
         var jsonDesign = {
-            "Name": pDesign.getDesignName(),
-            "Figures": addGeneralFigure(pDesign.getDesignFigures()),
-            "Sectors": addGeneralFigure(pDesign.getSectors()),
-            "Lines": pDesign.getFigureLines(),
-            "BasicPoints": addBasicPointsArray(pDesign.getBasicPoints()),
-            "ContourLines": addContourLinesArray(pDesign.getBasicLines()),
-            "AmountOfFigures": pDesign.getAmountOfFigures()
+            "Name": actualDesign.getDesignName(),
+            "Figures": addGeneralFigure(actualDesign.getDesignFigures()),
+            "Sectors": addGeneralFigure(actualDesign.getSectors()),
+            "Lines": actualDesign.getFigureLines(),
+            "BasicPoints": addBasicPointsArray(actualDesign.getBasicPoints()),
+            "ContourLines": addContourLinesArray(actualDesign.getBasicLines()),
+            "AmountOfFigures": actualDesign.getAmountOfFigures()
         };
  
         Parse.initialize("pEK69HNgWf7MHx3Kh0kbfeJqwoxNcqgqN9Km2l7Z", "G6h36n6USeXs4C8pX66pJUH09hV0sZryo63xRYHE");
@@ -56,10 +52,10 @@
         newDesign.set(jsonDesign);
         newDesign.save({
               success: function(object) {
-                alert("The Design " + pDesign.getDesignName() + " was saved");
+                alert("The Design " + actualDesign.getDesignName() + " was saved");
               },
               error: function(newDesign, error) {
-                alert("ERROR TO SAVE DESIGN: " + pDesign.getDesignName() + " ERROR CODE: " + error.code + " ERROR MESSAGE: " + error.message);
+                alert("ERROR TO SAVE DESIGN: " + actualDesign.getDesignName() + " ERROR CODE: " + error.code + " ERROR MESSAGE: " + error.message);
               }
         });   
     };

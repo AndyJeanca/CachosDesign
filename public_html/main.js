@@ -1935,6 +1935,7 @@ var arcadePaint = Class.extend({
                 var y = this.startY;
                 var ranges = [[x, y]];
                 var pixelPos = (y*this.canvasWidth + x) * 4;
+                var centerLine =[];
 
                 while(ranges.length>0) {
                     var actualLine = ranges.pop();
@@ -1942,14 +1943,14 @@ var arcadePaint = Class.extend({
                     // extendLeft
                        
                        var newLine =[];
-                       //newLine.push(actualLine);
+                       centerLine.push(actualLine);
                        var leftX= actualLine[0];
                         
                         pixelPos = (currentY*this.canvasWidth + leftX) * 4;
                         
                         
                         while( leftX>0 && this.matchStartColor(pixelPos)){
-                            leftX--;
+                            --leftX;
                             pixelPos = (currentY*this.canvasWidth + leftX) * 4;
                             var newPoint = [leftX,currentY];
                             newLine.push(newPoint);
@@ -1960,7 +1961,7 @@ var arcadePaint = Class.extend({
                     var rightX = actualLine[0];
                     pixelPos = (y*this.canvasWidth + rightX)* 4;
                     
-                            while(rightX<this.canvasWidth-1 && this.matchStartColor(pixelPos)) {
+                            while(this.matchStartColor(pixelPos)) {
                                     rightX++;
                                     pixelPos = (currentY*this.canvasWidth + rightX)* 4;
                                     var newPoint = [rightX,currentY];
@@ -2001,9 +2002,11 @@ var arcadePaint = Class.extend({
                            
                         }
                         
-                    }   
+                    }
+                    
                         
 	}
+         this.paintLine(centerLine);
             },
         paintLine : function ( pLine ){
             for(var actualPoint =0; actualPoint< pLine.length ; actualPoint++){
@@ -2166,10 +2169,19 @@ window.addEventListener('load',function(){
    
    paintFireMode = function(){
        projectObject.cachosFirePaint();
+   };
+   
+   saveActualDesign = function(){
+       var actualDesign = projectObject.getActualDesign();
+       saveDesign(actualDesign);
+   };
+   
+   loadASavedDesign = function (){
+      var designToLoad= prompt("Please enter the design name you want to load","new");
+      retrieveDesign(designToLoad);
        
        
    };
-   
    recordTime = function(){
        var actualDesignName = projectObject.getActualDesign().getDesignName();
        alert(projectObject.getActualDesign().generateReport(actualDesignName));
@@ -2362,20 +2374,16 @@ window.addEventListener('load',function(){
   
     // This function save a design in parse.com
     function saveDesign (pDesign) {
-        var tempDesign = new Design("Mercurial");
-        tempDesign.addCircle(1, 1, 1, 1, 1, 1);
-        tempDesign.addLine(2, 2, 2, 2);
-        tempDesign.addSquare(3, 3, 3, 3, 3);
-        pDesign = tempDesign;
+        var savingDesgin = pDesign;
         
         var jsonDesign = {
-            "Name": pDesign.getDesignName(),
-            "Figures": addGeneralFigure(pDesign.getDesignFigures()),
-            "Sectors": addGeneralFigure(pDesign.getSectors()),
-            "Lines": pDesign.getFigureLines(),
-            "BasicPoints": addBasicPointsArray(pDesign.getBasicPoints()),
-            "ContourLines": addContourLinesArray(pDesign.getBasicLines()),
-            "AmountOfFigures": pDesign.getAmountOfFigures()
+            "Name": savingDesgin.getDesignName(),
+            "Figures": addGeneralFigure(savingDesgin.getDesignFigures()),
+            "Sectors": addGeneralFigure(savingDesgin.getSectors()),
+            "Lines": savingDesgin.getFigureLines(),
+            "BasicPoints": addBasicPointsArray(savingDesgin.getBasicPoints()),
+            "ContourLines": addContourLinesArray(savingDesgin.getBasicLines()),
+            "AmountOfFigures": savingDesgin.getAmountOfFigures()
         };
  
         Parse.initialize("pEK69HNgWf7MHx3Kh0kbfeJqwoxNcqgqN9Km2l7Z", "G6h36n6USeXs4C8pX66pJUH09hV0sZryo63xRYHE");
@@ -2384,10 +2392,10 @@ window.addEventListener('load',function(){
         newDesign.set(jsonDesign);
         newDesign.save({
               success: function(object) {
-                alert("The Design " + pDesign.getDesignName() + " was saved");
+                alert("The Design " + savingDesgin.getDesignName() + " was saved");
               },
               error: function(newDesign, error) {
-                alert("ERROR TO SAVE DESIGN: " + pDesign.getDesignName() + " ERROR CODE: " + error.code + " ERROR MESSAGE: " + error.message);
+                alert("ERROR TO SAVE DESIGN: " + savingDesgin.getDesignName() + " ERROR CODE: " + error.code + " ERROR MESSAGE: " + error.message);
               }
         });   
     };

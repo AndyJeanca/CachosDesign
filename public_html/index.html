@@ -55,10 +55,6 @@
                                 <button onclick="addSquareClick()" id="configurationBtn">Square</button>
                                 <button onclick="addLineClick()"   id="configurationBtn">Line</button>
                                 <button onclick="addSectorClick()" id="configurationBtn">Sector</button>
-                                
-                                // Tests with Parse :)
-                                <button onclick="saveDesign()" id="configurationBtn">Save</button>
-                                <button onclick="retrieveDesign('designName')" id="configurationBtn">Retrieve</button>
                    
                             </td>
                             <td>
@@ -69,8 +65,8 @@
                                 <button onclick="changeActualOption(1)" id="configurationBtn">Sole</button>
                                 <button onclick="changeActualOption(0)" id="configurationBtn">Figures</button>
                                 <button onclick="changeActualOption(3)" id="configurationBtn">Sector</button>
-                                <button id="configurationBtn" >Save</button>
-                                <button id="configurationBtn" >Load</button>
+                                <button id="configurationBtn"  onclick="saveActualDesign()">Save</button>
+                                <button id="configurationBtn" onclick="loadASavedDesign()">Load</button>
                                 <button id="configurationBtn" onclick="recordTime()">Report</button>
                             
                                 </td>
