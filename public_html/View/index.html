@@ -1,0 +1,28 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AndyJeancaDesign</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            body{margin:40px; background: #665;}
+            #_Canvas{background: #6990AE; border: #000 1px solid;}
+        </style>
+    </head> 
+    <body>
+        <h1 id="statusMouse"> 0 | 0 </h1>
+        
+        
+        <button type="button" onclick="loadDesign('Nike Mercurial')">lOAD A DESIGN</button>
+        <button type="button" onclick="statusGlobalDesign()">Status Global Design</button>
+
+        
+        <script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script src="../Controller/ProyectManager.js"></script>
+        <script src="../Model/Design.js"></script>
+        <script src ="../Controller/ParseClass.js"></script>
+        <canvas id="_Canvas" width="1100" height="600"></canvas>
+    </body>
