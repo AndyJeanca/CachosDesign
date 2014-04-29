@@ -17,7 +17,9 @@
         <link rel="stylesheet" href="css/normalize.min.css" />
         <link rel="stylesheet" href="css/style.css" />
         <script defer="defer" src="js/vendor/Kinetic.js"></script>
-       <script defer="defer" src="main.js"></script>
+        <script defer="defer" src="main.js"></script>
+        <script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        
     </head>
     <body>
 
@@ -53,6 +55,10 @@
                                 <button onclick="addSquareClick()" id="configurationBtn">Square</button>
                                 <button onclick="addLineClick()"   id="configurationBtn">Line</button>
                                 <button onclick="addSectorClick()" id="configurationBtn">Sector</button>
+                                
+                                // Tests with Parse :)
+                                <button onclick="saveDesign()" id="configurationBtn">Save</button>
+                                <button onclick="retrieveDesign('designName')" id="configurationBtn">Retrieve</button>
                    
                             </td>
                             <td>
