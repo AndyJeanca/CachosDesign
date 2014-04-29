@@ -80,6 +80,170 @@
     
 }
 
+#configurationBtn {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #ff7e4f;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+#configurationBtn:hover {
+  background: #e34c22;
+  text-decoration: none;
+}
+
+#modeBtn {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #e14c27;
+  padding: 40px 20px 10px 20px;
+  text-decoration: none;
+}
+
+#modeBtn:hover {
+  background: #ff7e4f;
+  text-decoration: none;
+}
+
+#colorBtn {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 18px;
+  background: #ffffff;
+  padding: 12px 12px 12px 12px;
+  text-decoration: none;
+}
+
+#colorBtn :hover {
+  background: #e24f26;
+  text-decoration: none;
+}
+#colorTable  {
+	margin:0px;padding:0px;
+	width:100%;
+	box-shadow: 10px 10px 5px #888888;
+	border:1px solid #ff7f00;
+	
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+	
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+	
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+	
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+#colorTable  table{
+    border-collapse: collapse;
+        border-spacing: 0;
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}
+#colorTable tr:last-child td:last-child {
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+}
+
+#colorTable table tr:first-child td:first-child {
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+
+#colorTable table tr:first-child td:last-child {
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+}
+#colorTable tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+}
+#colorTable tr:hover td{
+	background-color:#ffffff;
+		
+
+}
+
+#colorTable td{
+	vertical-align:middle;
+	
+	background-color:#ffffff;
+
+	border:1px solid #ff7f00;
+	border-width:0px 1px 1px 0px;
+	text-align:center;
+	padding:0px;
+	font-size:0px;
+	font-family:Arial;
+	font-weight:normal;
+	color:#000000;
+}
+#colorTable tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}
+#colorTable tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}
+#colorTable tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+
+#colorTable tr:first-child td{
+		background:-o-linear-gradient(bottom, #ffffff 5%, #ffffff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #ffffff) );
+	background:-moz-linear-gradient( center top, #ffffff 5%, #ffffff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff");	background: -o-linear-gradient(top,#ffffff,ffffff);
+
+	background-color:#ffffff;
+	border:0px solid #ff7f00;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:0px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#ffffff;
+}
+
+#colorTable tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #ffffff 5%, #ffffff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #ffffff) );
+	background:-moz-linear-gradient( center top, #ffffff 5%, #ffffff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff");	background: -o-linear-gradient(top,#ffffff,ffffff);
+
+	background-color:#ffffff;
+}
+
+#colorTable tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+
+#colorTable tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
+}
+
+
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -183,14 +347,7 @@ nav a:hover {
   padding: 20px 0;
 }
 
-/* line 20, ../scss/partials/_content.scss */
-html,
-button,
-input,
-select,
-textarea {
-  color: #221;
-}
+
 
 /* line 24, ../scss/partials/_content.scss */
 body {

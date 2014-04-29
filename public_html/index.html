@@ -16,37 +16,94 @@
 
         <link rel="stylesheet" href="css/normalize.min.css" />
         <link rel="stylesheet" href="css/style.css" />
-       <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.2.min.js"></script>
+        <script defer="defer" src="js/vendor/Kinetic.js"></script>
        <script defer="defer" src="main.js"></script>
     </head>
     <body>
 
         <div class="header-container" id="kineticContainer">
-            <header class="wrapper clearfix">
+           <header class="wrapper clearfix">
                 <h1 class="title">CachosDesign</h1>
                 <nav>
                     <ul>
-                        <li><a href="#">Design</a></li>
-                        <li><a href="#">Arcade</a></li>
-                        <li><a href="#">Fire</a></li>
+                        <li><button id="modeBtn" onclick="toDesignMode()" >Design</button></li>
+                        <li><button id="modeBtn" onclick="paintArcadeMode()" >Arcade</button></li>
+                        <li><button id="modeBtn" onclick="paintFireMode()">Fire</button></li>
                     </ul>
                 </nav>
-            </header>
+           </header>
         </div>
 
             <div class="main wrapper clearfix" >
-                <div id="containerOfDesigns">
-                    <h1 class="designsTitle">Designs        </h1>
+                <div >
+                    <h1 id="designsTitle">Designs         </h1>
+                    <button id="configurationBtn" onclick="changeTheDesignName()">Change Desgin Name</button>
+                    
                 </div> <!-- #main -->
                 <div id="container">
                         
                 </div> 
-                <div id="containerOfFigures">
-                    <h1 class="designsTitle">Figures</h1>
+                <div >
+                    <table>
+                        <tr>
+                            <td>
+                                <h1 class="designsTitle">Figures                </h1>
 
-                    <button onclick="addCircleClick()">Circle</button>
-                    <button onclick="addSquareClick()">Square</button>
-                    <button onclick="addLineClick()">Line</button>
+                                <button onclick="addCircleClick()" id="configurationBtn">Circle</button>
+                                <button onclick="addSquareClick()" id="configurationBtn">Square</button>
+                                <button onclick="addLineClick()"   id="configurationBtn">Line</button>
+                                <button onclick="addSectorClick()" id="configurationBtn">Sector</button>
+                   
+                            </td>
+                            <td>
+                                <td>
+                                <h1 class="designsTitle">       Configuration</h1>
+
+                                <button onclick="changeActualOption(2)" id="configurationBtn">ContourLines</button>
+                                <button onclick="changeActualOption(1)" id="configurationBtn">Sole</button>
+                                <button onclick="changeActualOption(0)" id="configurationBtn">Figures</button>
+                                <button onclick="changeActualOption(3)" id="configurationBtn">Sector</button>
+                                <button id="configurationBtn" >Save</button>
+                                <button id="configurationBtn" >Load</button>
+                                <button id="configurationBtn" onclick="recordTime()">Report</button>
+                            
+                                </td>
+                                
+                                <td>
+                                    <td>
+                                        <table >
+                                        <tr><td><button id="colorBtn" style="background:#FF3333" onclick="changeColor(0)">   </button> <button id="colorBtn" style="background:#FF9933" onclick="changeColor(1)">    </button> <button id="colorBtn" style="background:#FFFF33" onclick="changeColor(2)">    </button> <button id="colorBtn" style="background:#99FF33" onclick="changeColor(3)">    </button> </td></tr>
+                                        <tr><td><button id="colorBtn" style="background:#FF3399" onclick="changeColor(4)">   </button>  <button id="colorBtn" style="background:#F50000" onclick="changeColor(5)">    </button> <button id="colorBtn" style="background:#B80000" onclick="changeColor(6)">    </button> <button id="colorBtn" style="background:#33FF33" onclick="changeColor(7)">    </button> </td></tr>
+                                        <tr><td><button id="colorBtn" style="background:#FF33FF" onclick="changeColor(8)">    </button>  <button id="colorBtn" style="background:#00B8B8" onclick="changeColor(9)">    </button> <button id="colorBtn" style="background:#00F5F5" onclick="changeColor(10)">    </button>  <button id="colorBtn" style="background:#33FF99" onclick="changeColor(11)" >   </button> </td></tr>
+                                        <tr><td><button id="colorBtn" style="background:#00F5F5" onclick="changeColor(12)">   </button>  <button id="colorBtn" style="background:#9933FF" onclick="changeColor(13)">   </button> <button id="colorBtn" style="background:#3333FF" onclick="changeColor(14)">   </button>  <button id="colorBtn" style="background:#3399FF" onclick="changeColor(15)">   </button> </td></tr>
+                                        
+                                        <tr> <td>
+                                                   
+                                                
+                                        </td>  </tr>     
+                                        <tr> <td>        
+                                        BorderSize <input id ="number" type="number" name="borderSize" min="1" max="10">
+                                        <button style="color:coral" onclick="changeBorderNow() " id="colorBtn">Change</button>
+                                        </td></tr>
+                                        
+                                    </table>
+                                    </td>
+                                    <td>
+                                           <p id="modifying" class="designsTitle">Figure</p> 
+                                           <p class="designsTitle">Figure</p> <p id="actualFigureId" class="designsTitle">0</p>
+                                           <p class="designsTitle"></p>Color: <p id="actualFigureColor" class="designsTitle">0</p>
+                                           <p class="designsTitle"> </p>BorderSize: <p id="actualFigureBorderSize" class="designsTitle">0 </p>
+                                    </td>
+                                    
+                                   
+                                </td>
+                                
+                                    <td>
+
+                                    </td>
+                            </td>
+                        </tr>
+                     </table>
 
                 </div> 
             </div>

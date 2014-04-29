@@ -1,3 +1,16 @@
+/*
+                                                                    _______                     
+                                                                   / ____(_)___ ___  __________ 
+                                                                  / /_  / / __ `/ / / / ___/ _ \
+                                                                 / __/ / / /_/ / /_/ / /  /  __/
+                                                                /_/   /_/\__, /\__,_/_/   \___/ 
+                                                                        /____/                  
+ */
+
+//document.write("<script type='text/javascript' src = '../Vendor/Class.js'></script>");
+//document.write("<script type='text/javascript' src = '../Model/Colors.js'></script>");
+//document.write("<script type='text/javascript' src = '../Model/Point.js'></script>");
+
 var Figure = Class.extend({
    
     init : function(pId, pColor, pBorderSize, pInitialPoint) {
@@ -33,12 +46,12 @@ var Figure = Class.extend({
     return this.borderSize;
     },
         
-    getInitailPoint : function(){
+    getInitialPoint : function(){
     return this.initialPoint;
     },
+   
     
-    
-    setX : function(pPoint) {
+     setInitialPoint : function(pPoint) {
         this.initialPoint= pPoint;
     },
  
@@ -64,6 +77,17 @@ var Figure = Class.extend({
     
     drawFigure : function () {
         
+    },
+    
+    paintFigure : function () {
+        
+    },
+     
+   
+    movePoint : function(pPointX,pPointY) {
+        this.initialPoint.setX(pPointX);
+        this.initialPoint.setY(pPointY);
+
     },
             
     /*Points in range is a function that add all the points that are between the range given in pointInRange

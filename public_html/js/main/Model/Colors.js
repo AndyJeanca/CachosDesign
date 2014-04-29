@@ -1,4 +1,14 @@
-//Colrs is basically a class with an array of 16 colors that are aviable to paint all the elements in the project
+/*
+                                                                    ______      __               
+                                                                  / ____/___  / /___  __________
+                                                                 / /   / __ \/ / __ \/ ___/ ___/
+                                                                / /___/ /_/ / / /_/ / /  (__  ) 
+                                                                \____/\____/_/\____/_/  /____/  
+
+ */
+
+//document.write("<script type='text/javascript' src = '../Vendor/Class.js'></script>");
+
 var Colors = Class.extend({
     init : function() {
         this._colors = [];
@@ -6,7 +16,7 @@ var Colors = Class.extend({
     },
    loadColors : function(){
        //Blue 
-       for(var numberOfColors = 0 ; numberOfColors<16; numberOfColors++){
+       for(var numberOfColors = 0 ; numberOfColors<17; numberOfColors++){
            this._colors.push("");
        };
        //Red 1 
@@ -41,7 +51,8 @@ var Colors = Class.extend({
        this._colors[14]="#3333FF";
         //Blue 3
        this._colors[15]="#3399FF";
-       
+       //Blue 3
+       this._colors[16]="#FFFFFF";
  
  
      },
@@ -50,5 +61,3 @@ var Colors = Class.extend({
         return this._colors[pNumber];
      }
 });
-
-

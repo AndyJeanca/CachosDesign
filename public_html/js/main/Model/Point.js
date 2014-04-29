@@ -1,3 +1,14 @@
+
+/*
+                                                                        ____        _       __ 
+                                                                       / __ \____  (_)___  / /_
+                                                                      / /_/ / __ \/ / __ \/ __/
+                                                                     / ____/ /_/ / / / / / /_  
+                                                                    /_/    \____/_/_/ /_/\__/  
+
+ */
+//document.write("<script type='text/javascript' src = '../Vendor/Class.js'></script>");
+
 var  point = Class.extend({
     init: function(pPosition,pPointX,pPointY,pColor){
    
@@ -5,10 +16,7 @@ var  point = Class.extend({
     this.position = pPosition;
     this.pointX = pPointX;
     this.pointY = pPointY;
-    
- 
     },
-    
     
     setX : function(pX){
         this.pointX=pX;
@@ -48,13 +56,11 @@ var  point = Class.extend({
     },
     
     comparePosition : function(pPoint){
-        if(pPoint.getX()==this.pointX && pPoint.getY()==this.pointY){
+        if(pPoint.getX()===this.pointX && pPoint.getY()===this.pointY){
             return true;
         }
         else{
             return false;
-        }
-        
+        }    
     }
-    
 });
