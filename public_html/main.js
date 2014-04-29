@@ -506,7 +506,7 @@ var Line = Figure.extend({
         points: [this.initialPoint.getX(),this.initialPoint.getY(),this.endingPoint.getX(),this.endingPoint.getY()],
     
         stroke: this.colorList.getColor(this.color),
-        strokeWidth: this.borderSize ,
+        strokeWidth: this.borderSize +3 ,
         lineCap: 'round',
         draggable : true,
         lineJoin: 'round',
@@ -616,7 +616,7 @@ var Arc = Figure.extend({
             },
         //points: [this.initialPoint.getX(),this.initialPoint.getY(),this.middlePoint.getX(),this.middlePoint.getY(),this.endingPoint.getX(),this.endingPoint.getY()],
         stroke: this.colorList.getColor(this.color),
-        strokeWidth: this.borderSize ,
+        strokeWidth: this.borderSize +3,
         lineCap: 'round',
         draggable : true
        
@@ -699,7 +699,7 @@ var Circle = Figure.extend({
         stroke: this.colorList.getColor(0) ,
         opacity: 0.75,
         draggable : true,
-        strokeWidth: this.borderSize
+        strokeWidth: this.borderSize + 3
       });
 
      return circle;
@@ -715,7 +715,8 @@ var Circle = Figure.extend({
         stroke: 'black' ,
         opacity: 0.75,
         draggable : true,
-        strokeWidth: this.borderSize
+        strokeWidth: this.borderSize + 3
+        
       });
 
      return circle;
@@ -789,7 +790,7 @@ var Square = Figure.extend({
         fill: this.colorList.getColor(this.color),
         stroke: 'black',
         draggable : true,
-        strokeWidth: this.borderSize
+        strokeWidth: this.borderSize +3
       });
 
       return rect;
@@ -902,7 +903,7 @@ var tennis = Figure.extend({
         fill: this.colorList.getColor(this.color),
         stroke: this.colorList.getColor(this.color),
         opacity : 0.75,
-        strokeWidth: this.borderSize
+        strokeWidth: this.borderSize + 3
       });
       return tennis;
     }
