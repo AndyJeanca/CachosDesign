@@ -403,10 +403,6 @@ var Figure = Class.extend({
         
     },
     
-    isInPointIn : function () {
-        
-    },
-    
     drawFigure : function () {
         
     },
@@ -470,24 +466,6 @@ var Line = Figure.extend({
         
     },
     
-    
-   
-   
-            
-    isInPointIn : function (pPoint) {
-        var _pointInRange =[];
-        _pointInRange = this.pointsInRange(this.initialPoint,this.endingPoint,_pointInRange);
-        
-        for(var currentPointPosition = 0 ; currentPointPosition>_pointInRange.length;currentPointPosition++){
-            if(pPoint.comparePosition(_pointInRange[currentPointPosition])){
-                return true;
-            }
-            else{
-                
-            }
-        }
-        return false;
-    },
     
     drawFigure : function () {
     var line = new Kinetic.Line({
@@ -798,26 +776,8 @@ var Square = Figure.extend({
     }
     
 });
-
-// --- file[Sector.js] ---
-
-
-/*
-                                                                        _____           __            
-                                                                      / ___/___  _____/ /_____  _____
-                                                                      \__ \/ _ \/ ___/ __/ __ \/ ___/
-                                                                     ___/ /  __/ /__/ /_/ /_/ / /    
-                                                                    /____/\___/\___/\__/\____/_/     
-                                 
- */
-
-
-var sector = Figure.extend({
-        init : function (pId, pColor, pBorderSize, pInitialPoint) {
-           this._super(pId, pColor, pBorderSize, pInitialPoint);
-            
-        }
-});
+        
+                              
 
 // --- file[Tennis.js] ---
 
@@ -1231,7 +1191,7 @@ var Design= Class.extend({
      },
      
      addSector :  function (pColor, pBorderSize, pInitialPoint){
-         var newSector = new sector(this._sectors.length, pColor, pBorderSize, pInitialPoint);
+         var newSector = new Figure(this._sectors.length, pColor, pBorderSize, pInitialPoint);
          this._sectors.push(newSector); 
          
      },
@@ -1426,6 +1386,8 @@ var ProjectManager = Class.extend({
 
     setActualDesign :  function(pActualDesign){
       this.actualDesign = pActualDesign;  
+      this.startCachosDesign();
+      
     },
     
     
@@ -2180,6 +2142,9 @@ window.addEventListener('load',function(){
    loadASavedDesign = function (){
       var designToLoad= prompt("Please enter the design name you want to load","new");
       retrieveDesign(designToLoad);
+      var designRetrived = getGlobalDesign();
+      projectObject.setActualDesign(designRetrived);
+      statusGlobalDesign();
        
        
    };
@@ -2191,6 +2156,13 @@ window.addEventListener('load',function(){
    
    
     /* 
+                                                                        ____                     
+                                                                       / __ \____ ______________ 
+                                                                      / /_/ / __ `/ ___/ ___/ _ \
+                                                                     / ____/ /_/ / /  (__  )  __/
+                                                                    /_/    \__,_/_/  /____/\___/ 
+
+ /* 
                                                                         ____                     
                                                                        / __ \____ ______________ 
                                                                       / /_/ / __ `/ ___/ ___/ _ \
@@ -2257,6 +2229,7 @@ window.addEventListener('load',function(){
                 if (currentFigure instanceof Line)
                     console.log("Line");
             }
+            console.log("Tiene " + _GlobalDesign.getDesignFigures().length);
             console.log("Basic Lines: " + _GlobalDesign.getFigureLines()[0]);
             
             var aContourLine = 0;
@@ -2440,14 +2413,14 @@ window.addEventListener('load',function(){
          for (actuallFigure; actuallFigure < pArrayOfFigures.length; actuallFigure++) {
              var currentFigure = pArrayOfFigures[actuallFigure];
              var nType = currentFigure.Type;
-             if (nType === "Circle" && currentFigure.Radius === 7) {
-                 
+             if (nType === "Circle" && currentFigure.Radius === 10) {
+     
              }
-             if (nType === "Circle")
+             else if (nType === "Circle")
                  _GlobalDesign.addCircle(currentFigure.Color, currentFigure.BorderSize, currentFigure.InitialPoint, currentFigure.Radius, currentFigure.Fill);
-             if (nType === "Square")
+             else if (nType === "Square")
                  _GlobalDesign.addSquare(currentFigure.Color, currentFigure.BorderSize, currentFigure.InitialPoint, currentFigure.Width, currentFigure.Height);
-             if (nType === "Line") {
+             else if (nType === "Line") {
                  _GlobalDesign.addLine(currentFigure.Color, currentFigure.BorderSize, currentFigure.InitialPoint, currentFigure.EndingPoint);
              }
          }
@@ -2491,7 +2464,7 @@ window.addEventListener('load',function(){
          var nContourLines = [];
          for (currentLine; currentLine < pContourLines.length; currentLine++) {
              var actualLine = pContourLines[currentLine];
-             var _nLine = new Line (actualLine.Color, actualLine.BorderSize, actualLine.InitialPoint, actualLines.EndingPoint);
+             var _nLine = new Line (actualLine.Color, actualLine.BorderSize, actualLine.InitialPoint, actualLine.EndingPoint);
              nContourLines.push(_nLine);
          }
          _GlobalDesign.setBasicLines(nContourLines);
@@ -2531,7 +2504,7 @@ window.addEventListener('load',function(){
                         alert("The design " + pDesignName + " was retrieved");
                     }
                     else
-                        alert("This design dosnÂ´t exist");
+                        alert("This design dosn´t exists");
                 },
                 error: function (object, error) {
                     alert("Error to load design: " + "Error code" + error.code + "Error message" + error.message);
@@ -2579,22 +2552,33 @@ window.addEventListener('load',function(){
      
      
      function getTimeArcade () {
-         
+         Parse.initialize("pEK69HNgWf7MHx3Kh0kbfeJqwoxNcqgqN9Km2l7Z", "G6h36n6USeXs4C8pX66pJUH09hV0sZryo63xRYHE");
+         var arcadeTime = Parse.Object.extend("arcadeTime");
+            var designQuery = new Parse.Query(arcadeTime);
+            designQuery.find({
+                success: function (results) {
+                    // Here, we can do something with the design retrieved
+                    alert(results[0].get('BestArcadeTime'));
+                },
+                error: function (object, error) {
+                    alert("Error to get Arcade time: " + "Error code" + error.code + "Error message" + error.message);
+                }
+            });
      };
      
      //-------------------------------------------------------------------------------------------//
      
      function getTimeFire () {
          Parse.initialize("pEK69HNgWf7MHx3Kh0kbfeJqwoxNcqgqN9Km2l7Z", "G6h36n6USeXs4C8pX66pJUH09hV0sZryo63xRYHE");
-         var Times = Parse.Object.extend("Times");
-            var designQuery = new Parse.Query(Times);
+         var FireTime = Parse.Object.extend("FireTime");
+            var designQuery = new Parse.Query(FireTime);
             designQuery.find({
                 success: function (results) {
                     // Here, we can do something with the design retrieved
-                    alert(results[0].Fire);
+                    alert(results[0].get('BestFireTime'));
                 },
                 error: function (object, error) {
-                    alert("Error to get Time Fire: " + "Error code" + error.code + "Error message" + error.message);
+                    alert("Error to get Fire time: " + "Error code" + error.code + "Error message" + error.message);
                 }
             });
      };
@@ -2620,15 +2604,15 @@ window.addEventListener('load',function(){
      
      function saveTimeFire (pTimeFire) {
          Parse.initialize("pEK69HNgWf7MHx3Kh0kbfeJqwoxNcqgqN9Km2l7Z", "G6h36n6USeXs4C8pX66pJUH09hV0sZryo63xRYHE");
-         var Times = Parse.Object.extend("Times");
-         var newTimeFire = new Times();
-         newTimeFire.set("Fire", pTimeFire);
+         var FireTime = Parse.Object.extend("FireTime");
+         var newTimeFire = new FireTime();
+         newTimeFire.set("BestFireTime", pTimeFire);
          newTimeFire.save({
               success: function(object) {
                 alert("The Fire time " + pTimeFire + " was saved");
               },
               error: function(newDesign, error) {
-                alert("ERROR TO SAVE FIRETIME: " + pTimeFire + " ERROR CODE: " + error.code + " ERROR MESSAGE: " + error.message);
+                alert("ERROR TO SAVE ARCADETIME: " + pTimeFire + " ERROR CODE: " + error.code + " ERROR MESSAGE: " + error.message);
               }
         });
      };
@@ -2646,15 +2630,40 @@ window.addEventListener('load',function(){
                 actualArcadeTime.set("BestArcadeTime", pArcadeTime);
                 actualArcadeTime.save({
                       success: function(object) {
-                        alert("Update");
+                        alert("Update the arcade time");
                       },
                       error: function(newDesign, error) {
-                        alert("ERROR TO upload the arcade time");
+                        alert("ERROR to upload the arcade time");
                       }
                 });       
             },
             error: function (object, error) {
                 alert("Error to upload the arcade time");
+            }
+        });
+    };
+    
+    //-------------------------------------------------------------------------------------------//
+    
+    function uploadFire (pFireTime) {
+        Parse.initialize("pEK69HNgWf7MHx3Kh0kbfeJqwoxNcqgqN9Km2l7Z", "G6h36n6USeXs4C8pX66pJUH09hV0sZryo63xRYHE");
+         var FireTime = Parse.Object.extend("FireTime");
+         var designQuery = new Parse.Query(FireTime);
+         designQuery.find({
+            success: function (results) { 
+                var actualFireTime = results[0];
+                actualFireTime.set("BestFireTime", pFireTime);
+                actualFireTime.save({
+                      success: function(object) {
+                        alert("Update the fire time");
+                      },
+                      error: function(newDesign, error) {
+                        alert("ERROR TO upload the fire time");
+                      }
+                });       
+            },
+            error: function (object, error) {
+                alert("Error to upload the fire time");
             }
         });
     };
